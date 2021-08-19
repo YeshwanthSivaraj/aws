@@ -1,5 +1,5 @@
 const express = require('express');
-const got = require('got');
+const request = require('request');
 const app = express();
 
 app.use(express.json());
@@ -19,21 +19,36 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
     try{
+        req.on('data', (chunk) => {
+            body += chunk.toString()
+        })
         
-        const url = req.body;
-        if (req.is('text/*')){
-            if (url.SubscribeURL) {
-                console.log(url.SubscribeURL)
-                await got(url.SubscribeURL)
-                return res.end()
+        req.on('end', () => {
+            let payload = JSON.parse(body)
+        
+            if (payload.Type === 'SubscriptionConfirmation') {
+                const promise = new Promise((resolve, reject) => {
+                const url = payload.SubscribeURL
+        
+                request(url, (error, response) => {
+                  if (!error && response.statusCode == 200) {
+                    console.log('Yess! We have accepted the confirmation from AWS')
+                    return resolve()
+                  } else {
+                    return reject()
+                  }
+                })
+              })
+        
+              promise.then(() => {
+                res.end("ok")
+              })
             }
-        }
-    
-        if (!url.eventType) { return res.end() }
 
-        console.log(drip)
-        
-        return res.end()
+            if (!payload.eventType) { return res.end() }
+
+            console.log(payload)
+        })     
     } catch (err) {
         console.log(err)
         res.end()
