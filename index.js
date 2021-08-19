@@ -25,35 +25,12 @@ app.post('/', async (req, res) => {
             body += chunk.toString();
         })
 
-        req.on('end', () => {
-            let payload = JSON.parse(body);
+        let payload = JSON.parse(body);
         
-            if (payload.Type && payload.Type === 'SubscriptionConfirmation') {
-                const promise = new Promise((resolve, reject) => {
-                const url = payload.SubscribeURL
-        
-                request(url, (error, response) => {
-                  if (!error && response.statusCode == 200) {
-                    console.log('Yess! We have accepted the confirmation from AWS')
-                    return resolve()
-                  } else {
-                    return reject()
-                  }
-                })
-              })
-        
-              promise.then(() => {
-                res.end("ok")
-              })
-              .catch((err) => {
-                  console.log(error)
-              })
-            }
+        if (!payload.eventType) { return res.end() }
 
-            if (payload.eventType) {
-                console.log(payload.eventType)
-            }
-        })   
+        console.log(payload)
+        
     } catch (err) {
         console.log(err)
         res.end()
