@@ -25,7 +25,7 @@ app.post('/', async (req, res) => {
             body += chunk.toString();
         })
 
-        let payload = JSON.parse(body);
+        let payload = body;
         
         if (!payload.eventType) { return res.end() }
 
