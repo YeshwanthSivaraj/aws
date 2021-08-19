@@ -15,10 +15,11 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
     try{
         if (req.is('text/*')) {
-            req.body = JSON.parse(req.body)
-            if (req.body.SubscribeURL) {
-              await got(req.body.SubscribeURL)
-              return res.end()
+            url = JSON.parse(req.body)
+            if (url.SubscribeURL) {
+                console.log(url.SubscribeURL)
+                await got(url.SubscribeURL)
+                return res.end()
             }
         }
 
