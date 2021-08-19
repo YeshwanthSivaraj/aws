@@ -19,18 +19,13 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
     try{
-        let body = ''
+        let url = req.body;
 
-        req.on('data', (chunk) => {
-            body += chunk.toString();
-        })
+        if (!url.eventTypes) { return res.end() }
 
-        let payload = body;
-        
-        if (!payload.eventType) { return res.end() }
+        console.log(url.eventTypes)
 
-        return res.send(`${payload}`)
-        
+        return res.end();     
     } catch (err) {
         console.log(err)
         res.end()
