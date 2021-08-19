@@ -14,13 +14,11 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
     try{
-        if (req.is('text/*')) {
-            url = JSON.parse(req.body)
-            if (url.SubscribeURL) {
-                console.log(url.SubscribeURL)
-                await got(url.SubscribeURL)
-                return res.end()
-            }
+        url = JSON.parse(req.body)
+        if (url.SubscribeURL) {
+            console.log(url.SubscribeURL)
+            await got(url.SubscribeURL)
+            return res.end()
         }
 
         const body = JSON.parse(req.body.Message)
