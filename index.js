@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
     try{
         if (req.is('text/*')){
-            const url = JSON.parse(req.body)
+            const url = req.body;
             if (url.SubscribeURL) {
                 console.log(url.SubscribeURL)
                 await got(url.SubscribeURL)
