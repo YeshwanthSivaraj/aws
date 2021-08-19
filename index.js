@@ -1,4 +1,5 @@
 const express = require('express');
+const got = require('got');
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -11,8 +12,16 @@ app.get('/', (req, res) => {
     res.send('Hello world')
 })
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     try{
+        if (req.is('text/*')) {
+            req.body = JSON.parse(req.body)
+            if (req.body.SubscribeURL) {
+              await got(req.body.SubscribeURL)
+              return res.end()
+            }
+        }
+
         const body = JSON.parse(req.body.Message)
 
         if (!body.eventType) { return res.end() }
