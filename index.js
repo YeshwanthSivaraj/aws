@@ -14,19 +14,21 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-    res.send('SES SNS TO HEROKU webapp')
+    res.send('SES SNS TO HEROKU webapp quiet-falls')
 })
 
 app.post('/', async (req, res) => {
     try{
         
         const url = req.body;
-        if (url.SubscribeURL) {
-            console.log(url.SubscribeURL)
-            await got(url.SubscribeURL)
-            return res.end()
+        if (req.is('text/*')){
+            if (url.SubscribeURL) {
+                console.log(url.SubscribeURL)
+                await got(url.SubscribeURL)
+                return res.end()
+            }
         }
-
+    
         if (!url.eventType) { return res.end() }
 
         console.log(drip)
