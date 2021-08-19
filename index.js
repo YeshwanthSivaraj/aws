@@ -29,7 +29,7 @@ app.post('/', async (req, res) => {
         
         if (!payload.eventType) { return res.end() }
 
-        console.log(payload)
+        return res.send(`${payload}`)
         
     } catch (err) {
         console.log(err)
