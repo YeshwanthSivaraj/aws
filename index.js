@@ -9,12 +9,12 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-    res.send('Hello world')
+    res.send('SES SNS TO HEROKU')
 })
 
 app.post('/', async (req, res) => {
     try{
-        url = JSON.parse(req.body)
+        const url = JSON.parse(req.body)
         if (url.SubscribeURL) {
             console.log(url.SubscribeURL)
             await got(url.SubscribeURL)
