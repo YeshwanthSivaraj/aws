@@ -19,20 +19,17 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
     try{
-        if (req.is('text/*')){
-            const url = req.body;
-            if (url.SubscribeURL) {
-                console.log(url.SubscribeURL)
-                await got(url.SubscribeURL)
-                return res.end()
-            }
-        }
         
-        const body = req.body.Message;
+        const url = req.body;
+        if (url.SubscribeURL) {
+            console.log(url.SubscribeURL)
+            await got(url.SubscribeURL)
+            return res.end()
+        }
 
-        if (!body.eventType) { return res.end() }
+        if (!url.eventType) { return res.end() }
 
-        console.log(body)
+        console.log(drip)
         
         return res.end()
     } catch (err) {
