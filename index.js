@@ -23,7 +23,9 @@ app.post('/', async (req, res) => {
 
         req.on('data', (chunk) => {
             body += chunk.toString();
+        })
 
+        req.on('end', () => {
             let payload = JSON.parse(body);
         
             if (payload.Type && payload.Type === 'SubscriptionConfirmation') {
@@ -51,7 +53,7 @@ app.post('/', async (req, res) => {
             if (payload.eventType) {
                 console.log(payload.eventType)
             }
-        })     
+        })   
     } catch (err) {
         console.log(err)
         res.end()
