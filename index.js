@@ -22,13 +22,11 @@ app.post('/', async (req, res) => {
         let body = ''
 
         req.on('data', (chunk) => {
-            body += chunk.toString()
-        })
+            body += chunk.toString();
+
+            let payload = JSON.parse(body);
         
-        req.on('end', () => {
-            let payload = JSON.parse(body)
-        
-            if (payload.Type === 'SubscriptionConfirmation') {
+            if (payload.Type && payload.Type === 'SubscriptionConfirmation') {
                 const promise = new Promise((resolve, reject) => {
                 const url = payload.SubscribeURL
         
@@ -50,9 +48,9 @@ app.post('/', async (req, res) => {
               })
             }
 
-            if (!payload.eventType) { return res.end() }
-
-            console.log(payload)
+            if (payload.eventType) {
+                console.log(payload.eventType)
+            }
         })     
     } catch (err) {
         console.log(err)
