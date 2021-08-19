@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
     try{
         let body = ''
-        
+
         req.on('data', (chunk) => {
             body += chunk.toString()
         })
@@ -44,6 +44,9 @@ app.post('/', async (req, res) => {
         
               promise.then(() => {
                 res.end("ok")
+              })
+              .catch((err) => {
+                  console.log(error)
               })
             }
 
