@@ -1,6 +1,5 @@
 const express = require('express');
 const got = require('got');
-const bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.json());
@@ -29,7 +28,7 @@ app.post('/', async (req, res) => {
             }
         }
         
-        const body = JSON.parse(req.body.Message)
+        const body = req.body.Message;
 
         if (!body.eventType) { return res.end() }
 
